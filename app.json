@@ -1,0 +1,68 @@
+{
+  "expo": {
+    "name": "PingMe",
+    "slug": "pingme",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "newArchEnabled": true,
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#090A0F"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.pingme.app",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "PingMe needs photo access to let you set a profile picture.",
+        "NSCameraUsageDescription": "PingMe needs camera access to take a profile photo."
+      }
+    },
+    "android": {
+      "package": "com.pingme.app",
+      "permissions": [
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE"
+      ],
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#090A0F"
+      }
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#9C6644"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "PingMe needs photo access to let you set a profile picture.",
+          "cameraPermission": "PingMe needs camera access to take a profile photo or share in chat."
+        }
+      ],
+      "@react-native-community/datetimepicker"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id"
+      }
+    }
+  }
+}
