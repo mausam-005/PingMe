@@ -39,7 +39,17 @@ export default function PingDetailsScreen({ route, navigation }) {
     }
   }, [paramPing, paramPingId]);
 
-  const ping = paramPing || fetchedPing || SAMPLE_PINGS[0];
+  const ping = paramPing || fetchedPing || {
+    id: paramPingId || '',
+    activity: 'Ping',
+    emoji: '⚡',
+    description: '',
+    participantIds: [],
+    participantNames: [],
+    participantCount: 0,
+    maxParticipants: 4,
+    status: 'active',
+  };
 
   const isOwner = ping.ownerId === (user?.uid || 'guest');
   const hasJoined = ping.participantIds?.includes(user?.uid || 'guest');

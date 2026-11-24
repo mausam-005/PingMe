@@ -11,18 +11,7 @@ import {
 import { db } from './firebase';
 
 // Local in-memory store for guest / offline preview
-const LOCAL_CHATS = {
-  'demo-1': [
-    {
-      id: 'm-1',
-      senderId: 'u1',
-      senderName: 'Host',
-      type: 'text',
-      text: 'Heading to the cafe in 5 mins. Anyone need anything?',
-      timeLabel: 'Just now',
-    },
-  ],
-};
+const LOCAL_CHATS = {};
 
 const chatListeners = new Set();
 function notifyChatListeners(pingId) {

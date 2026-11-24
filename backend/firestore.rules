@@ -1,5 +1,5 @@
-# PingMe — Firestore Security Rules
-# Paste this into Firebase Console → Firestore → Rules
+// PingMe — Firestore Security Rules
+// Paste this into Firebase Console → Firestore → Rules
 
 rules_version = '2';
 service cloud.firestore {

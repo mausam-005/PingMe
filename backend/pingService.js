@@ -17,53 +17,8 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 
-export const SAMPLE_PINGS = [
-  {
-    id: 'demo-1',
-    activity: 'Quick coffee',
-    emoji: '☕',
-    description: 'Grabbing espresso near campus cafe. Anyone free to join?',
-    ownerId: 'u1',
-    participantNames: ['Host', 'Friend'],
-    participantIds: ['u1', 'u2'],
-    participantCount: 2,
-    maxParticipants: 4,
-    time: 'Live now',
-    timeWindow: 'Now · 2h window',
-    locationText: 'Main Cafe',
-    status: 'active',
-  },
-  {
-    id: 'demo-2',
-    activity: 'Badminton doubles',
-    emoji: '🏸',
-    description: 'Indoor court booked for 6:00 PM. Looking for 2 more players.',
-    ownerId: 'u3',
-    participantNames: ['Host', 'Player 2'],
-    participantIds: ['u3', 'u4'],
-    participantCount: 2,
-    maxParticipants: 4,
-    time: '6:00 PM',
-    timeWindow: '6:00 PM – 9:00 PM',
-    locationText: 'Sports Hall',
-    status: 'active',
-  },
-  {
-    id: 'demo-3',
-    activity: 'Quiet study desk',
-    emoji: '📚',
-    description: 'Focus work session in library silent zone.',
-    ownerId: 'u5',
-    participantNames: ['Host'],
-    participantIds: ['u5'],
-    participantCount: 1,
-    maxParticipants: 3,
-    time: 'Today 10:00 AM – 8:00 PM',
-    timeWindow: '10:00 AM – 8:00 PM (10h)',
-    locationText: 'Library 2F',
-    status: 'active',
-  },
-];
+// In-memory store for offline/guest mode (starts empty; created live)
+export const SAMPLE_PINGS = [];
 
 // Local listeners so guest / offline mutations immediately reflect in UI
 const localListeners = new Set();
@@ -241,7 +196,7 @@ export function subscribeFriendsFeed(friendIds, callback) {
 export function subscribeMyPings(userId, callback) {
   const pushLocal = () => {
     const mine = SAMPLE_PINGS.filter((p) => p.ownerId === userId);
-    callback(mine.length > 0 ? [...mine] : [SAMPLE_PINGS[0]]);
+    callback([...mine]);
   };
   localListeners.add(pushLocal);
 
@@ -256,7 +211,7 @@ export function subscribeMyPings(userId, callback) {
       q,
       (snap) => {
         const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        callback(docs.length > 0 ? docs : SAMPLE_PINGS.slice(0, 1));
+        callback(docs);
       },
       () => {
         pushLocal();
@@ -278,7 +233,7 @@ export function subscribeMyPings(userId, callback) {
 export function subscribeJoinedPings(userId, callback) {
   const pushLocal = () => {
     const joined = SAMPLE_PINGS.filter((p) => p.participantIds?.includes(userId));
-    callback(joined.length > 0 ? [...joined] : SAMPLE_PINGS.slice(1, 3));
+    callback([...joined]);
   };
   localListeners.add(pushLocal);
 
@@ -292,7 +247,7 @@ export function subscribeJoinedPings(userId, callback) {
       q,
       (snap) => {
         const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        callback(docs.length > 0 ? docs : SAMPLE_PINGS.slice(1, 3));
+        callback(docs);
       },
       () => {
         pushLocal();
